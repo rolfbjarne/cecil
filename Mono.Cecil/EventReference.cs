@@ -46,9 +46,6 @@ namespace Mono.Cecil {
 		protected EventReference (string name, TypeReference eventType)
 			: base (name)
 		{
-			if (eventType == null)
-				throw new ArgumentNullException ("eventType");
-
 			event_type = eventType;
 		}
 	}

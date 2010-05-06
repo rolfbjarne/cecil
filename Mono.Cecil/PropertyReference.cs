@@ -48,9 +48,6 @@ namespace Mono.Cecil {
 		internal PropertyReference (string name, TypeReference propertyType)
 			: base (name)
 		{
-			if (propertyType == null)
-				throw new ArgumentNullException ("propertyType");
-
 			property_type = propertyType;
 		}
 	}

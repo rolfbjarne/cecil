@@ -58,9 +58,6 @@ namespace Mono.Cecil {
 
 		internal ParameterReference (string name, TypeReference parameterType)
 		{
-			if (parameterType == null)
-				throw new ArgumentNullException ("parameterType");
-
 			this.name = name ?? string.Empty;
 			this.parameter_type = parameterType;
 		}

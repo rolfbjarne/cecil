@@ -51,9 +51,6 @@ namespace Mono.Cecil {
 		public FieldReference (string name, TypeReference fieldType)
 			: base (name)
 		{
-			if (fieldType == null)
-				throw new ArgumentNullException ("fieldType");
-
 			this.field_type = fieldType;
 			this.token = new MetadataToken (TokenType.MemberRef);
 		}

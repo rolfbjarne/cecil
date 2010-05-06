@@ -36,7 +36,37 @@ namespace Mono.Cecil {
 	public sealed class GenericInstanceMethod : MethodSpecification, IGenericInstance, IGenericContext {
 
 		Collection<TypeReference> arguments;
+		private Collection<ParameterDefinition> m_resolvedParameters;
+		private MethodReturnType m_resolvedReturnType;
 
+		public override MethodReturnType ResolvedReturnType
+		{
+			get
+			{
+				if (m_resolvedReturnType == null)
+					m_resolvedReturnType = MethodReturnType.ResolveGenericTypes (GenericParameters, GenericArguments);
+				return m_resolvedReturnType;
+			}
+		}
+
+		public override Collection<ParameterDefinition> ResolvedParameters
+		{
+			get
+			{
+				if (m_resolvedParameters == null) {
+					if (GenericArguments.Count > 0 && GenericParameters.Count == 0) {
+						if (OriginalMethod == null) {
+							m_resolvedParameters = ParameterDefinitionCollection.ResolveGenericTypes (Parameters, ElementMethod.GenericParameters, GenericArguments);
+						} else {
+							m_resolvedParameters = ParameterDefinitionCollection.ResolveGenericTypes (Parameters, OriginalMethod.GenericParameters, GenericArguments);
+						}
+					} else {
+						m_resolvedParameters = ParameterDefinitionCollection.ResolveGenericTypes (Parameters, GenericParameters, GenericArguments);
+					}
+				}
+				return m_resolvedParameters;
+			}
+		}
 		public bool HasGenericArguments {
 			get { return !arguments.IsNullOrEmpty (); }
 		}

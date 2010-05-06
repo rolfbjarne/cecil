@@ -32,8 +32,68 @@ namespace Mono.Cecil {
 
 		string name;
 		TypeReference declaring_type;
+		System.Collections.IDictionary m_annotations;
 
 		internal MetadataToken token;
+
+		internal static TypeReference ResolveType (TypeReference original, Mono.Collections.Generic.Collection<GenericParameter> parameters, Mono.Collections.Generic.Collection<TypeReference> arguments)
+		{
+			TypeSpecification spec = original as TypeSpecification;
+			ArrayType array = original as ArrayType;
+			ByReferenceType reference = original as ByReferenceType;
+			GenericInstanceType genericType = original as GenericInstanceType;
+
+			if (parameters.Count != arguments.Count)
+				throw new System.ArgumentException ("Parameters and Arguments must have the same number of elements.");
+
+			if (spec != null) {
+				TypeReference resolved = ResolveType (spec.ElementType, parameters, arguments);
+
+				if (genericType != null) {
+					GenericInstanceType result = new GenericInstanceType (genericType.ElementType);
+					bool found;
+					for (int i = 0; i < genericType.ElementType.GenericParameters.Count; i++) {
+						found = false;
+						for (int k = 0; k < parameters.Count; k++) {
+							if (genericType.ElementType.GenericParameters [i].Name == parameters [k].Name) {
+								found = true;
+								result.GenericArguments.Add (arguments [k]);
+								break;
+							}
+						}
+						if (!found)
+							result.GenericArguments.Add (genericType.ElementType.GenericParameters [i]);
+					}
+					return result;
+				}
+
+				if (resolved == spec.ElementType)
+					return spec;
+
+				if (array != null) {
+					return new ArrayType (resolved, array.Dimensions.Count);
+				} else if (reference != null) {
+					return new ByReferenceType (resolved);
+				} else {
+					throw new System.NotImplementedException ();
+				}
+			} else {
+				for (int i = 0; i < parameters.Count; i++) {
+					if (parameters [i] == original) {
+						return arguments [i];
+					}
+				}
+				return original;
+			}
+		}
+
+		public System.Collections.IDictionary Annotations {
+			get {
+				if (m_annotations == null)
+					m_annotations = new System.Collections.Hashtable ();
+				return m_annotations;
+			}
+		}
 
 		public virtual string Name {
 			get { return name; }

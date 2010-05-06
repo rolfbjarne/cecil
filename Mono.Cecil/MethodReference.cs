@@ -42,6 +42,22 @@ namespace Mono.Cecil {
 		bool explicit_this;
 		MethodCallingConvention calling_convention;
 		internal Collection<GenericParameter> generic_parameters;
+		public MethodReference OriginalMethod;
+		
+		public virtual Collection<ParameterDefinition> ResolvedParameters
+		{
+			get
+			{
+				if (parameters == null)
+					parameters = new ParameterDefinitionCollection (this);
+				return parameters;
+			}
+		}
+
+		public virtual MethodReturnType ResolvedReturnType
+		{
+			get { return return_type; }
+		}
 
 		public virtual bool HasThis {
 			get { return has_this; }
@@ -145,9 +161,18 @@ namespace Mono.Cecil {
 			this.token = new MetadataToken (TokenType.MemberRef);
 		}
 
+		public MethodReference (string name, TypeReference declaringType, TypeReference returnType, bool hasThis, bool explicitThis, MethodCallingConvention callingConvention)
+			: this (name, returnType)
+		{
+			this.DeclaringType = declaringType;
+			this.HasThis = hasThis;
+			this.ExplicitThis = explicitThis;
+			this.CallingConvention = callingConvention;
+		}
+
 		public virtual MethodReference GetElementMethod ()
 		{
-			return this;
+			return OriginalMethod != null ? OriginalMethod : this;
 		}
 
 		public virtual MethodDefinition Resolve ()

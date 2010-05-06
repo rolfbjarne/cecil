@@ -36,6 +36,28 @@ namespace Mono.Cecil {
 
 		readonly IMethodSignature method;
 
+		public static Collection<ParameterDefinition> ResolveGenericTypes (Collection<ParameterDefinition> list, Collection<GenericParameter> gen_params, Collection<TypeReference> gen_args)
+		{
+			Collection<ParameterDefinition> result;
+			bool any_resolved = false;
+			result = new Collection<ParameterDefinition> ();
+			for (int i = 0; i < list.Count; i++) {
+				ParameterDefinition p = list [i];
+				TypeReference resolved = MemberReference.ResolveType (p.ParameterType, gen_params, gen_args);
+				if (resolved != p.ParameterType) {
+					result.Add (new ParameterDefinition (p.Name, p.Attributes, resolved));
+					any_resolved = true;
+				} else {
+					result.Add (p);
+				}
+			}
+
+			if (!any_resolved)
+				return list;
+
+			return result;
+		}
+
 		internal ParameterDefinitionCollection (IMethodSignature method)
 		{
 			this.method = method;

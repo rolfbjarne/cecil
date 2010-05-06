@@ -36,6 +36,25 @@ namespace Mono.Cecil {
 		internal ParameterDefinition parameter;
 		TypeReference return_type;
 
+		internal MethodReturnType ResolveGenericTypes (Collection<GenericParameter> parameters, Collection<TypeReference> arguments)
+		{
+			TypeReference resolved = MemberReference.ResolveType (return_type, parameters, arguments);
+			MethodReturnType result;
+
+			if (resolved == return_type)
+				return this;
+
+			result = new MethodReturnType (method);
+			result.ReturnType = resolved;
+			if (parameter != null) {
+				result.MetadataToken = MetadataToken;
+				result.MarshalInfo = MarshalInfo;
+				result.Constant = Constant;
+				//TODO: result.m_param.CustomAttributes = CustomAttributes;
+			}
+			return result;
+		}
+
 		public IMethodSignature Method {
 			get { return method; }
 		}

@@ -181,7 +181,7 @@ namespace Mono.Cecil.Cil {
 			var cecil_name = typeof (SymbolProvider).Assembly.GetName ();
 
 			var name = new SR.AssemblyName {
-				Name = "Mono.Cecil." + symbol_kind,
+				Name = "Mono.Cecil.VB." + symbol_kind,
 				Version = cecil_name.Version,
 			};
 
@@ -238,7 +238,7 @@ namespace Mono.Cecil.Cil {
 			if (writer_provider != null)
 				return writer_provider;
 
-			var type = GetPlatformType ("Mono.Cecil." + symbol_kind + ".WriterProvider");
+			var type = GetPlatformType ("Mono.Cecil." + symbol_kind + "." + symbol_kind + "WriterProvider");
 			if (type == null)
 				return null;
 

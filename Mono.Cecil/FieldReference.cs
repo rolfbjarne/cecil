@@ -55,6 +55,12 @@ namespace Mono.Cecil {
 			this.token = new MetadataToken (TokenType.MemberRef);
 		}
 
+		public FieldReference (string name, TypeReference declaringType, TypeReference fieldType)
+			: this (name, fieldType)
+		{
+			this.DeclaringType = declaringType;
+		}
+
 		public virtual FieldDefinition Resolve ()
 		{
 			var module = this.Module;

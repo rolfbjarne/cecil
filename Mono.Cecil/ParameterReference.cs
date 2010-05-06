@@ -46,6 +46,11 @@ namespace Mono.Cecil {
 			get { return index; }
 		}
 
+		public int Sequence	{
+			get { return index + 1; }
+			set { index = value - 1; }
+		}
+
 		public TypeReference ParameterType {
 			get { return parameter_type; }
 			set { parameter_type = value; }

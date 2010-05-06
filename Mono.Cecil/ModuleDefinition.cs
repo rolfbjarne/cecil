@@ -122,7 +122,8 @@ namespace Mono.Cecil {
 
 	public sealed class ModuleDefinition : ModuleReference, ICustomAttributeProvider {
 
-		internal Image Image;
+		public Image Image;
+		public byte [] Win32Resources;
 		internal TypeSystem TypeSystem;
 		internal MetadataSystem MetadataSystem;
 		internal ReadingMode ReadingMode;

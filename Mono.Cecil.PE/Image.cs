@@ -36,7 +36,7 @@ using RVA = System.UInt32;
 
 namespace Mono.Cecil.PE {
 
-	sealed class Image {
+	public sealed class Image {
 
 		public ModuleKind Kind;
 		public TargetRuntime Runtime;

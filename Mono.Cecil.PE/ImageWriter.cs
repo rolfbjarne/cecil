@@ -91,6 +91,12 @@ namespace Mono.Cecil.PE {
 
 		void GetWin32Resources ()
 		{
+			if (module.Win32Resources != null) {
+				var raw_win32_resources = new byte [module.Win32Resources.Length];
+				Buffer.BlockCopy (module.Win32Resources, 0, raw_win32_resources, 0, module.Win32Resources.Length);
+				win32_resources = new ByteBuffer (raw_win32_resources);
+				return;
+			}
 			var rsrc = GetImageResourceSection ();
 			if (rsrc == null)
 				return;
@@ -812,7 +818,7 @@ namespace Mono.Cecil.PE {
 			var old_rsrc = GetImageResourceSection ();
 			var rva = resources.ReadUInt32 ();
 			resources.position -= 4;
-			resources.WriteUInt32 (rva - old_rsrc.VirtualAddress + rsrc.VirtualAddress);
+			resources.WriteUInt32 (rva - (old_rsrc != null ? old_rsrc.VirtualAddress : 0) + rsrc.VirtualAddress);
 		}
 	}
 }

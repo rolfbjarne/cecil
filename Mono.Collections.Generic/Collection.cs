@@ -124,6 +124,24 @@ namespace Mono.Collections.Generic {
 			version++;
 		}
 
+		public void AddRange (T [] items)
+		{
+			if (size < this.items.Length + items.Length)
+				Grow (items.Length);
+
+			for (int i = 0; i < items.Length; i++)
+				Add (items [i]);
+		}
+
+		public void AddRange (IList<T> items)
+		{
+			if (size < this.items.Length + items.Count)
+				Grow (items.Count);
+
+			for (int i = 0; i < items.Count; i++)
+				Add (items [i]);
+		}
+
 		public bool Contains (T item)
 		{
 			return IndexOf (item) != -1;

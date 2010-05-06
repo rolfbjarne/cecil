@@ -1491,7 +1491,7 @@ namespace Mono.Cecil {
 
 		public PropertyDefinition ReadMethods (PropertyDefinition property)
 		{
-			ReadAllSemantics (property.DeclaringType);
+			ReadAllSemantics ((TypeDefinition) property.DeclaringType);
 			return property;
 		}
 

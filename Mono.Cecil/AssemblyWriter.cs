@@ -1576,11 +1576,11 @@ namespace Mono.Cecil {
 
 			var method = property.GetMethod;
 			if (method != null)
-				AddSemantic (MethodSemanticsAttributes.Getter, property, method);
+				AddSemantic (MethodSemanticsAttributes.Getter, property, (MethodDefinition) method);
 
 			method = property.SetMethod;
 			if (method != null)
-				AddSemantic (MethodSemanticsAttributes.Setter, property, method);
+				AddSemantic (MethodSemanticsAttributes.Setter, property, (MethodDefinition) method);
 
 			if (property.HasOtherMethods)
 				AddOtherSemantic (property, property.OtherMethods);

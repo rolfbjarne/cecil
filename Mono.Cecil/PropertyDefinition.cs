@@ -39,8 +39,8 @@ namespace Mono.Cecil {
 
 		Collection<CustomAttribute> custom_attributes;
 
-		internal MethodDefinition get_method;
-		internal MethodDefinition set_method;
+		internal MethodReference get_method;
+		internal MethodReference set_method;
 		internal Collection<MethodDefinition> other_methods;
 
 		object constant = Mixin.NotResolved;
@@ -84,7 +84,7 @@ namespace Mono.Cecil {
 			}
 		}
 
-		public MethodDefinition GetMethod {
+		public MethodReference GetMethod {
 			get {
 				if (get_method != null)
 					return get_method;
@@ -95,7 +95,7 @@ namespace Mono.Cecil {
 			set { get_method = value; }
 		}
 
-		public MethodDefinition SetMethod {
+		public MethodReference SetMethod {
 			get {
 				if (set_method != null)
 					return set_method;
@@ -156,7 +156,7 @@ namespace Mono.Cecil {
 			}
 		}
 
-		static Collection<ParameterDefinition> MirrorParameters (MethodDefinition method, int bound)
+		static Collection<ParameterDefinition> MirrorParameters (MethodReference method, int bound)
 		{
 			var parameters = new Collection<ParameterDefinition> ();
 			if (!method.HasParameters)
@@ -212,7 +212,13 @@ namespace Mono.Cecil {
 
 		#endregion
 
-		public new TypeDefinition DeclaringType {
+		public new TypeReference DeclaringType {
+			get { return base.DeclaringType; }
+			set { base.DeclaringType = value; }
+		}
+
+		TypeDefinition IMemberDefinition.DeclaringType
+		{
 			get { return (TypeDefinition) base.DeclaringType; }
 			set { base.DeclaringType = value; }
 		}

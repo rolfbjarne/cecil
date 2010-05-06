@@ -39,6 +39,17 @@ namespace Mono.Cecil {
 		object constant = Mixin.NotResolved;
 		Collection<CustomAttribute> custom_attributes;
 		MarshalInfo marshal_info;
+		System.Collections.IDictionary m_annotations;
+
+		public System.Collections.IDictionary Annotations
+		{
+			get
+			{
+				if (m_annotations == null)
+					m_annotations = new System.Collections.Hashtable ();
+				return m_annotations;
+			}
+		}
 
 		public ParameterAttributes Attributes {
 			get { return (ParameterAttributes) attributes; }

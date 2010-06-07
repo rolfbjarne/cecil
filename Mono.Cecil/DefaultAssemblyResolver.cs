@@ -60,7 +60,7 @@ namespace Mono.Cecil {
 			return assembly;
 		}
 
-		protected void RegisterAssembly (AssemblyDefinition assembly)
+		public void RegisterAssembly (AssemblyDefinition assembly)
 		{
 			if (assembly == null)
 				throw new ArgumentNullException ("assembly");

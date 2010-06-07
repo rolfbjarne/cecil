@@ -12,7 +12,8 @@ include ../../build/library.make
 DISTFILES = \
 	$(wildcard *.csproj)	\
 	NOTES.txt	\
-	mono.snk
+	mono.snk	\
+	Mono.Cecil.VB.dll.sources
 
 Mono.Cecil.VB.dll.sources: Mono.Cecil.VB.csproj
 	grep "Compile Include" Mono.Cecil.VB.csproj | sed 's_.*["]\(.*\)["].*_\1_' | sed 's_\\_/_' > $@

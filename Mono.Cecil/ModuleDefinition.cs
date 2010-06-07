@@ -127,7 +127,7 @@ namespace Mono.Cecil {
 		internal TypeSystem TypeSystem;
 		internal MetadataSystem MetadataSystem;
 		internal ReadingMode ReadingMode;
-		internal IAssemblyResolver AssemblyResolver;
+		public IAssemblyResolver AssemblyResolver;
 		internal ISymbolReaderProvider SymbolReaderProvider;
 		internal ISymbolReader SymbolReader;
 

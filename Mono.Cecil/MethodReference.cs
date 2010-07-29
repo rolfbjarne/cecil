@@ -192,6 +192,15 @@ namespace Mono.Cecil {
 			this.CallingConvention = callingConvention;
 		}
 
+		public MethodReference (string name, TypeReference returnType, TypeReference declaringType)
+			: this (name, returnType)
+		{
+			if (declaringType == null)
+				throw new ArgumentNullException ("declaringType");
+
+			this.DeclaringType = declaringType;
+		}
+
 		public virtual MethodReference GetElementMethod ()
 		{
 			return OriginalMethod != null ? OriginalMethod : this;

@@ -59,7 +59,7 @@ namespace Mono.Cecil {
 			this.token = new MetadataToken (TokenType.MemberRef);
 		}
 
-		public FieldReference (string name, TypeReference fieldType, TypeReference declaringType, bool make_this_not_compile_until_callers_are_fixed)
+		public FieldReference (string name, TypeReference fieldType, TypeReference declaringType)
 			: this (name, fieldType)
 		{
 			if (declaringType == null)
